@@ -6,8 +6,8 @@ import "package:provider/provider.dart";
 import 'TaskListItem.dart';
 
 void main() {
-  TaskListItemState state = TaskListItemState();
 
+  TaskListItemState state = TaskListItemState();
   runApp(
     ChangeNotifierProvider(create: (context) => state,
     child: MyApp(),

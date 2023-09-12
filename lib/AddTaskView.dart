@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:template/TaskListItem.dart';
+import 'package:provider/provider.dart';
 
 class AddTaskView extends StatelessWidget {
+  final TextEditingController _taskController = TextEditingController();
+  
  
   @override
   Widget build(BuildContext context) {
-
+  var taskState = Provider.of<TaskListItemState>(context, listen: false);  
     return Scaffold(
       appBar: AppBar(  
         centerTitle: true,
@@ -18,6 +22,7 @@ class AddTaskView extends StatelessWidget {
         child: Column(
           children: [
             TextField(
+              controller: _taskController,
               decoration: InputDecoration(
                 hintText: 'Enter task name',
               ),
@@ -25,6 +30,11 @@ class AddTaskView extends StatelessWidget {
             SizedBox(height: 20.0),
             TextButton(
               onPressed: () {
+                  final newTask = _taskController.text.trim();
+                  if (newTask.isNotEmpty) {
+                    taskState.addTask(newTask);
+                    _taskController.clear();
+                  } 
                 
               },
               style: TextButton.styleFrom(

@@ -2,46 +2,61 @@ import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 
 class TaskListItemState extends ChangeNotifier {
-  Map<String, bool> _taskStates = {}; // Map to store task states
+  List<Task> _tasks = [];
 
-  bool getIsChecked(String taskText) {
-    return _taskStates[taskText] ?? false; // Default to false if not found
-  }
+  List<Task> get tasks => _tasks;
 
-  void setIsChecked(String taskText, bool isChecked) {
-    _taskStates[taskText] = isChecked;
+  void addTask(String taskText) {
+    _tasks.add(Task(taskText: taskText));
     notifyListeners();
   }
+
+  void removeTask(Task task) {
+    _tasks.remove(task);
+    notifyListeners();
+  }
+
 }
 
 
-class TaskListItem extends StatelessWidget {
+class Task {
   final String taskText;
+  bool isDone;
 
-  TaskListItem({required this.taskText});
+  Task({required this.taskText, this.isDone = false});
+}
+
+
+
+class TaskListItem extends StatelessWidget {
+  final Task task;
+  final VoidCallback onRemove;
+
+  TaskListItem({required this.task, required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
-    var taskState = Provider.of<TaskListItemState>(context);
-
     return ListTile(
       leading: Checkbox(
-        value: taskState.getIsChecked(taskText), // Use taskText as ID
+        value: task.isDone,
         onChanged: (bool? value) {
-          context.read<TaskListItemState>().setIsChecked(taskText, value!);
+          task.isDone = value!;
+          // Notify the state that the task has changed
+          Provider.of<TaskListItemState>(context, listen: false).notifyListeners();
         },
       ),
       title: Text(
-        taskText,
+        task.taskText,
         style: TextStyle(
-          fontSize: 18, 
-          decoration: taskState.getIsChecked(taskText) ? TextDecoration.lineThrough : null,
-          ),
+          fontSize: 18,
+          decoration: task.isDone ? TextDecoration.lineThrough : null,
+        ),
       ),
       trailing: IconButton(
         icon: Icon(Icons.close),
-        onPressed: () {},
+        onPressed: onRemove,
       ),
     );
   }
 }
+

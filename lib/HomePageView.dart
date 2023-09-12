@@ -7,7 +7,7 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    var taskState = Provider.of<TaskListItemState>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -19,14 +19,17 @@ class HomePageView extends StatelessWidget {
         ],
         
       ),
-      body: ListView(
-        children: [
-          TaskListItem(taskText: "Slänga sopor"),
-          TaskListItem(taskText: "Handla smör"),
-          TaskListItem(taskText: "Erövra Paraguay"),
-          TaskListItem(taskText: "Vattna blommor")
-        ]
-        
+      body: ListView.builder(
+        itemCount: taskState.tasks.length,
+        itemBuilder: (context, index) {
+          final task = taskState.tasks[index];
+          return TaskListItem(
+            task: task,
+            onRemove: () {
+              taskState.removeTask(task);
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
