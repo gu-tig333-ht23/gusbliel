@@ -1,9 +1,18 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import "HomePageView.dart";
-
+import "package:provider/provider.dart";
+import 'TaskListItem.dart';
 
 void main() {
-  runApp(const MyApp());
+  TaskListItemState state = TaskListItemState();
+
+  runApp(
+    ChangeNotifierProvider(create: (context) => state,
+    child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {

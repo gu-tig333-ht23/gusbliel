@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:template/TaskListItem.dart';
 import "AddTaskView.dart";
+import "package:provider/provider.dart";
 
 class HomePageView extends StatelessWidget {
- 
+
   @override
   Widget build(BuildContext context) {
 
