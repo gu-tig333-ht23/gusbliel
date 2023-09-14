@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
 
 class TaskListItemState extends ChangeNotifier {
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [];
 
   List<Task> get tasks => _tasks;
 
@@ -15,7 +15,6 @@ class TaskListItemState extends ChangeNotifier {
     _tasks.remove(task);
     notifyListeners();
   }
-
 }
 
 class Task {
@@ -24,8 +23,6 @@ class Task {
 
   Task({required this.taskText, this.isDone = false});
 }
-
-
 
 class TaskListItem extends StatelessWidget {
   final Task task;
@@ -40,7 +37,8 @@ class TaskListItem extends StatelessWidget {
         value: task.isDone,
         onChanged: (bool? value) {
           task.isDone = value!;
-          Provider.of<TaskListItemState>(context, listen: false).notifyListeners();
+          Provider.of<TaskListItemState>(context, listen: false)
+              .notifyListeners();
         },
       ),
       title: Text(
@@ -57,4 +55,3 @@ class TaskListItem extends StatelessWidget {
     );
   }
 }
-

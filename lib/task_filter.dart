@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:template/TaskListItem.dart';
+import 'package:flutter/material.dart';
+import 'package:template/task_list_item.dart';
 
 enum TaskFilter {
   All,

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import "HomePageView.dart";
+import 'home_page_view.dart';
 import "package:provider/provider.dart";
-import 'TaskListItem.dart';
-import "TaskFilter.dart";
+import 'task_list_item.dart';
+import 'task_filter.dart';
 
 void main() {
   TaskListItemState taskState = TaskListItemState();
-  TaskFilterModel filterModel = TaskFilterModel(); // Add this line
+  TaskFilterModel filterModel = TaskFilterModel();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => taskState),
-        ChangeNotifierProvider(create: (context) => filterModel), // Add this line
+        ChangeNotifierProvider(create: (context) => filterModel),
       ],
       child: MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,16 +28,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 145, 175)), //hehehe
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Color.fromARGB(255, 255, 145, 175)), //hehehe
         useMaterial3: true,
       ),
       home: HomePageView(),
     );
   }
 }
-
-
-
-
-
