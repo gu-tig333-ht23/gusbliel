@@ -14,7 +14,8 @@ class HomePageView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 255, 145, 175), //Theme primary color va inte tillräckligt fin
+        backgroundColor: Color.fromARGB(
+            255, 255, 145, 175), //Theme primary color va inte tillräckligt fin
         title: Text("TIG333 TODO"),
         actions: [
           PopupMenuButton<TaskFilter>(
@@ -44,8 +45,14 @@ class HomePageView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  Text("Your todo list is empty", style: TextStyle(fontSize: 25),),
-                  Text("press + to add a task!", style: TextStyle(fontSize: 25),),
+                  Text(
+                    "Your todo list is empty",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Text(
+                    "press + to add a task!",
+                    style: TextStyle(fontSize: 25),
+                  ),
                   Image.asset(
                     'assets/stickman-dancing.gif',
                     width: 284,
