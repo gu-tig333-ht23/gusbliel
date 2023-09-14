@@ -18,7 +18,7 @@ class HomePageView extends StatelessWidget {
             255, 255, 145, 175), //Theme primary color va inte tillräckligt fin
         title: Text("TIG333 TODO"),
         actions: [
-          PopupMenuButton<TaskFilter>(
+          PopupMenuButton<TaskFilter>( //Här kan användaren sätta ett filter på task listan. 
             onSelected: (filter) {
               filterModel.setFilter(filter);
             },
@@ -39,7 +39,7 @@ class HomePageView extends StatelessWidget {
           ),
         ],
       ),
-      body: filteredTasks.isEmpty
+      body: filteredTasks.isEmpty //Detta ska förbättras i framtiden för att fungera bättre i enlighet med filtret man väljer. 
           ? Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +59,7 @@ class HomePageView extends StatelessWidget {
                     height: 408,
                   ),
                 ]))
-          : ListView.builder(
+          : ListView.builder( //Här visas listan med tasks
               itemCount: filteredTasks.length,
               itemBuilder: (context, index) {
                 final task = filteredTasks[index];
@@ -71,7 +71,7 @@ class HomePageView extends StatelessWidget {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton( //knappen i nedre högra hörnet
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AddTaskView()));

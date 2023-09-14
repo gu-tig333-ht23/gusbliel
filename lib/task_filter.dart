@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:template/task_list_item.dart';
 
+//TaskFilter håller koll på vilket filter som är aktivt 
 enum TaskFilter {
   All,
   Done,
   Undone,
 }
-
+//TaskFilterModel används för att sätta Taskfilter samt för att applicera det på Task listan och returnera resultatet. 
 class TaskFilterModel extends ChangeNotifier {
   TaskFilter _selectedFilter = TaskFilter.All;
 
