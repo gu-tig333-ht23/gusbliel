@@ -18,7 +18,6 @@ class TaskListItemState extends ChangeNotifier {
 
 }
 
-
 class Task {
   final String taskText;
   bool isDone;
@@ -41,7 +40,6 @@ class TaskListItem extends StatelessWidget {
         value: task.isDone,
         onChanged: (bool? value) {
           task.isDone = value!;
-          // Notify the state that the task has changed
           Provider.of<TaskListItemState>(context, listen: false).notifyListeners();
         },
       ),

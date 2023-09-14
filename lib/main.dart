@@ -1,19 +1,24 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import "HomePageView.dart";
 import "package:provider/provider.dart";
 import 'TaskListItem.dart';
+import "TaskFilter.dart";
 
 void main() {
+  TaskListItemState taskState = TaskListItemState();
+  TaskFilterModel filterModel = TaskFilterModel(); // Add this line
 
-  TaskListItemState state = TaskListItemState();
   runApp(
-    ChangeNotifierProvider(create: (context) => state,
-    child: MyApp(),
-    )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => taskState),
+        ChangeNotifierProvider(create: (context) => filterModel), // Add this line
+      ],
+      child: MyApp(),
+    ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
