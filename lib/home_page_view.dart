@@ -14,6 +14,7 @@ class HomePageView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 255, 145, 175), //Theme primary color va inte tillräckligt fin
         title: Text("TIG333 TODO"),
         actions: [
           PopupMenuButton<TaskFilter>(
@@ -37,18 +38,32 @@ class HomePageView extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: filteredTasks.length,
-        itemBuilder: (context, index) {
-          final task = filteredTasks[index];
-          return TaskListItem(
-            task: task,
-            onRemove: () {
-              taskState.removeTask(task);
-            },
-          );
-        },
-      ),
+      body: filteredTasks.isEmpty
+          ? Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Text("Your todo list is empty", style: TextStyle(fontSize: 25),),
+                  Text("press + to add a task!", style: TextStyle(fontSize: 25),),
+                  Image.asset(
+                    'assets/stickman-dancing.gif',
+                    width: 284,
+                    height: 408,
+                  ),
+                ]))
+          : ListView.builder(
+              itemCount: filteredTasks.length,
+              itemBuilder: (context, index) {
+                final task = filteredTasks[index];
+                return TaskListItem(
+                  task: task,
+                  onRemove: () {
+                    taskState.removeTask(task);
+                  },
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

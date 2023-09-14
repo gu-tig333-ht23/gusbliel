@@ -29,7 +29,8 @@ class TaskListItem extends StatelessWidget {
   final Task task;
   final VoidCallback onRemove;
 
-  final List<String> congratulatoryMessages = [ //detta är 100% nödvändigt
+  final List<String> taskDoneMessages = [
+    //detta är 100% nödvändigt
     'Kingen!',
     'Fan va bra!',
     'Du är bäst!',
@@ -53,10 +54,10 @@ class TaskListItem extends StatelessWidget {
 
           if (task.isDone) {
             final random = Random();
-            final index = random.nextInt(congratulatoryMessages.length);
+            final index = random.nextInt(taskDoneMessages.length);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(congratulatoryMessages[index]),
+                content: Text(taskDoneMessages[index]),
                 duration: Duration(seconds: 1),
               ),
             );
