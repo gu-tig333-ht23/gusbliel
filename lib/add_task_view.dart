@@ -9,9 +9,10 @@ class AddTaskView extends StatelessWidget {
   Widget build(BuildContext context) {
     var taskState = Provider.of<TaskListItemState>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text("TIG333 TODO"), actions: [
-          IconButton(icon: Icon(Icons.more_vert), onPressed: (null))
-        ]),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("TIG333 TODO"),
+        ),
         body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
@@ -29,13 +30,15 @@ class AddTaskView extends StatelessWidget {
                     taskState.addTask(newTask);
                     _taskController.clear();
                   }
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Color.fromARGB(255, 255, 145, 175),
+                    content: Text("A task has been added!"),
+                    duration: Duration(seconds: 2),
+                  ));
                 },
-                style: TextButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.black),
-                ),
                 child: Text(
                   '+ ADD',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ])));

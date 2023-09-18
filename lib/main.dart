@@ -25,11 +25,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TIG333 TODO',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Color.fromARGB(255, 255, 145, 175)), //hehehe
+        colorScheme: ColorScheme.dark(
+          background: Color.fromARGB(255, 249, 195, 210),
+          primary: Color.fromARGB(255, 255, 145, 175),
+          onPrimary: Colors.white,
+          secondary: Color.fromARGB(255, 255, 145, 175),
+          onSecondary: Colors.white,
+        ),
+        //iconTheme: IconThemeData(color: Colors.white),
+
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 255, 145, 175),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: TextStyle(color: Colors.white),
+          backgroundColor: Color.fromARGB(255, 255, 145, 175),
+        ),
+        popupMenuTheme: PopupMenuThemeData(color: Color.fromARGB(255, 255, 145, 175)),
         useMaterial3: true,
       ),
       home: HomePageView(),

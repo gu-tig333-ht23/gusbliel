@@ -10,15 +10,16 @@ class HomePageView extends StatelessWidget {
     var taskState = Provider.of<TaskListItemState>(context);
     var filterModel = Provider.of<TaskFilterModel>(context);
     List<Task> filteredTasks = filterModel.applyFilter(taskState.tasks);
+    var selectedFilterString = filterModel.selectedFilter.toString().substring(11);
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color.fromARGB(
-            255, 255, 145, 175), //Theme primary color va inte tillräckligt fin
         title: Text("TIG333 TODO"),
         actions: [
-          PopupMenuButton<TaskFilter>( //Här kan användaren sätta ett filter på task listan. 
+          //Här kan användaren sätta ett filter på task listan.
+          PopupMenuButton<TaskFilter>(
+            icon: Text("Showing $selectedFilterString", style: TextStyle(fontSize: 18),),
             onSelected: (filter) {
               filterModel.setFilter(filter);
             },
@@ -39,7 +40,9 @@ class HomePageView extends StatelessWidget {
           ),
         ],
       ),
-      body: filteredTasks.isEmpty //Detta ska förbättras i framtiden för att fungera bättre i enlighet med filtret man väljer. 
+      //visar en fin gubbe som dansar och lite text om man inte laggt till några tasks. 
+      body: filteredTasks
+              .isEmpty && filterModel.selectedFilter == TaskFilter.All
           ? Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +62,8 @@ class HomePageView extends StatelessWidget {
                     height: 408,
                   ),
                 ]))
-          : ListView.builder( //Här visas listan med tasks
+          //Här visas listan med tasks
+          : ListView.builder(
               itemCount: filteredTasks.length,
               itemBuilder: (context, index) {
                 final task = filteredTasks[index];
@@ -71,7 +75,8 @@ class HomePageView extends StatelessWidget {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton( //knappen i nedre högra hörnet
+      //knappen i nedre högra hörnet
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AddTaskView()));

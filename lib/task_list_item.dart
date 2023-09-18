@@ -31,16 +31,18 @@ class TaskListItem extends StatelessWidget {
   final Task task;
   final VoidCallback onRemove;
 
-  final List<String> taskDoneMessages = [
-    //detta är 100% nödvändigt
-    'Kingen!',
-    'Fan va bra!',
-    'Du är bäst!',
-    'Boom! bam!',
-    "Jag vill va som dig när jag blir stor!",
-    "Coolast i stan!",
-    "Daaamn, snyggt!"
-  ];
+final List<String> taskDoneMessages = [
+  // This is 100% necessary
+  'King!',
+  'You are the best!',
+  'Boom! Bam!',
+  'I want to be like you when I grow up!',
+  'Coolest in town!',
+  'Daaamn, nice!',
+  'Legend!',
+  'Absolute legend!',
+  'You are on fire!',
+];
   
   TaskListItem({required this.task, required this.onRemove});
 
@@ -59,6 +61,7 @@ class TaskListItem extends StatelessWidget {
             final index = random.nextInt(taskDoneMessages.length);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                //backgroundColor: Color.fromARGB(255, 255, 145, 175),
                 content: Text(taskDoneMessages[index]),
                 duration: Duration(seconds: 1),
               ),
