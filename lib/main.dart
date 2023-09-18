@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
-import "HomePageView.dart";
-
+import 'home_page_view.dart';
+import "package:provider/provider.dart";
+import 'task_list_item.dart';
+import 'task_filter.dart';
 
 void main() {
-  runApp(const MyApp());
+  TaskListItemState taskState = TaskListItemState();
+  TaskFilterModel filterModel = TaskFilterModel();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => taskState),
+        ChangeNotifierProvider(create: (context) => filterModel),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,19 +25,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TIG333 TODO',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: ColorScheme.dark(
+          background: Color.fromARGB(255, 249, 195, 210),
+          primary: Color.fromARGB(255, 255, 145, 175),
+          onPrimary: Colors.white,
+          secondary: Color.fromARGB(255, 255, 145, 175),
+          onSecondary: Colors.white,
+        ),
+        //iconTheme: IconThemeData(color: Colors.white),
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 145, 175)), //hehehe
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 255, 145, 175),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: TextStyle(color: Colors.white),
+          backgroundColor: Color.fromARGB(255, 255, 145, 175),
+        ),
+        popupMenuTheme: PopupMenuThemeData(color: Color.fromARGB(255, 255, 145, 175)),
         useMaterial3: true,
       ),
       home: HomePageView(),
     );
   }
 }
-
-
-
-
-
