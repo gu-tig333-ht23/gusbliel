@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/task_list_item.dart';
 import 'package:provider/provider.dart';
-
+import 'get_tasks_from_api.dart';
 class AddTaskView extends StatelessWidget {
   final TextEditingController _taskController = TextEditingController();
 
@@ -25,9 +25,10 @@ class AddTaskView extends StatelessWidget {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
+                                 
                   final newTask = _taskController.text.trim();
                   if (newTask.isNotEmpty) {
-                    taskState.addTask(newTask);
+                    postTodo(Todo(title: newTask));
                     _taskController.clear();
                   }
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

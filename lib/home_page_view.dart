@@ -3,6 +3,7 @@ import 'package:template/task_list_item.dart';
 import 'add_task_view.dart';
 import "package:provider/provider.dart";
 import 'task_filter.dart';
+import 'get_tasks_from_api.dart';
 
 class HomePageView extends StatelessWidget {
   @override
@@ -10,7 +11,8 @@ class HomePageView extends StatelessWidget {
     var taskState = Provider.of<TaskListItemState>(context);
     var filterModel = Provider.of<TaskFilterModel>(context);
     List<Task> filteredTasks = filterModel.applyFilter(taskState.tasks);
-    var selectedFilterString = filterModel.selectedFilter.toString().substring(11);
+    var selectedFilterString =
+        filterModel.selectedFilter.toString().substring(11);
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +21,10 @@ class HomePageView extends StatelessWidget {
         actions: [
           //Här kan användaren sätta ett filter på task listan.
           PopupMenuButton<TaskFilter>(
-            icon: Text("Showing $selectedFilterString", style: TextStyle(fontSize: 18),),
+            icon: Text(
+              "Showing $selectedFilterString",
+              style: TextStyle(fontSize: 18),
+            ),
             onSelected: (filter) {
               filterModel.setFilter(filter);
             },
@@ -40,41 +45,41 @@ class HomePageView extends StatelessWidget {
           ),
         ],
       ),
-      //visar en fin gubbe som dansar och lite text om man inte laggt till några tasks. 
-      body: filteredTasks
-              .isEmpty && filterModel.selectedFilter == TaskFilter.All
-          ? Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  Text(
-                    "Your todo list is empty",
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  Text(
-                    "press + to add a task!",
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  Image.asset(
-                    'assets/stickman-dancing.gif',
-                    width: 284,
-                    height: 408,
-                  ),
-                ]))
-          //Här visas listan med tasks
-          : ListView.builder(
-              itemCount: filteredTasks.length,
-              itemBuilder: (context, index) {
-                final task = filteredTasks[index];
-                return TaskListItem(
-                  task: task,
-                  onRemove: () {
-                    taskState.removeTask(task);
+      //visar en fin gubbe som dansar och lite text om man inte laggt till några tasks.
+      body:
+          filteredTasks.isEmpty && filterModel.selectedFilter == TaskFilter.All
+              ? Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                      Text(
+                        "Your todo list is empty",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        "press + to add a task!",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Image.asset(
+                        'assets/stickman-dancing.gif',
+                        width: 284,
+                        height: 408,
+                      ),
+                    ]))
+              //Här visas listan med tasks
+              : ListView.builder(
+                  itemCount: filteredTasks.length,
+                  itemBuilder: (context, index) {
+                    final task = filteredTasks[index];
+                    return TaskListItem(
+                      task: task,
+                      onRemove: () {
+                        taskState.removeTask(task);
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
       //knappen i nedre högra hörnet
       floatingActionButton: FloatingActionButton(
         onPressed: () {
