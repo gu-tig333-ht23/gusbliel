@@ -1,90 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:template/task_list_item.dart';
-import 'add_task_view.dart';
+import 'package:template/todo_list_widget.dart';
+import 'add_todo_view.dart';
 import "package:provider/provider.dart";
-import 'task_filter.dart';
-import 'get_tasks_from_api.dart';
+import 'todo_filter.dart';
+import 'get_todos_from_api.dart';
 
+//creates the home page view where the user can view their todos and interact with them. 
 class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var taskState = Provider.of<TaskListItemState>(context);
-    var filterModel = Provider.of<TaskFilterModel>(context);
-    List<Task> filteredTasks = filterModel.applyFilter(taskState.tasks);
+    var todofilter = Provider.of<TodoFilterState>(context);
+    var todoState = Provider.of<TodoState>(context);
+    todoState.fetchTodos();
+
+    List<Todo> filteredTodos = todofilter.applyFilter(todoState.todos);
     var selectedFilterString =
-        filterModel.selectedFilter.toString().substring(11);
+        todofilter.selectedFilter.toString().substring(11);
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text("TIG333 TODO"),
         actions: [
-          //Här kan användaren sätta ett filter på task listan.
-          PopupMenuButton<TaskFilter>(
+          PopupMenuButton<TodoFilter>(
             icon: Text(
               "Showing $selectedFilterString",
               style: TextStyle(fontSize: 18),
             ),
             onSelected: (filter) {
-              filterModel.setFilter(filter);
+              todofilter.setFilter(filter);
             },
             itemBuilder: (context) => [
               PopupMenuItem(
-                value: TaskFilter.All,
+                value: TodoFilter.All,
                 child: Text('All'),
               ),
               PopupMenuItem(
-                value: TaskFilter.Done,
+                value: TodoFilter.Done,
                 child: Text('Done'),
               ),
               PopupMenuItem(
-                value: TaskFilter.Undone,
+                value: TodoFilter.Undone,
                 child: Text('Undone'),
               ),
             ],
           ),
         ],
       ),
-      //visar en fin gubbe som dansar och lite text om man inte laggt till några tasks.
-      body:
-          filteredTasks.isEmpty && filterModel.selectedFilter == TaskFilter.All
-              ? Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                      Text(
-                        "Your todo list is empty",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      Text(
-                        "press + to add a task!",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      Image.asset(
-                        'assets/stickman-dancing.gif',
-                        width: 284,
-                        height: 408,
-                      ),
-                    ]))
-              //Här visas listan med tasks
-              : ListView.builder(
-                  itemCount: filteredTasks.length,
-                  itemBuilder: (context, index) {
-                    final task = filteredTasks[index];
-                    return TaskListItem(
-                      task: task,
-                      onRemove: () {
-                        taskState.removeTask(task);
-                      },
-                    );
+      body: filteredTodos.isEmpty && todofilter.selectedFilter == TodoFilter.All
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Your todo list is empty",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Text(
+                    "press + to add a todo!",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Image.asset(
+                    'assets/stickman-dancing.gif',
+                    width: 284,
+                    height: 408,
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: filteredTodos.length,
+              itemBuilder: (context, index) {
+                final todo = filteredTodos[index];
+                return TodoListWidget(
+                  todo: todo,
+                  onRemove: () {
+                    deleteTodo(todo);
                   },
-                ),
-      //knappen i nedre högra hörnet
+                  context: context,
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddTaskView()));
+              context, MaterialPageRoute(builder: (context) => AddTodoView()));
         },
         child: Icon(Icons.add),
       ),

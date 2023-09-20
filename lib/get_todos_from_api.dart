@@ -1,17 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 String ENDPOINT = "https://todoapp-api.apps.k8s.gu.se";
 String APIKEY = "0ddf8a9f-38b5-4f88-935b-17424e88ed98";
+
 class Todo {
-  final String? id;
+  String? id;
   final String title;
   bool done;
 
   Todo({
     this.id,
     required this.title,
-    this.done = false, // Default value is false
+    this.done = false,
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) {
@@ -32,16 +34,24 @@ class Todo {
     }
     return jsonMap;
   }
-    @override
-  String toString() {
-    return 'Todo: id=$id, title=$title, done=$done';
+}
+
+class TodoState extends ChangeNotifier {
+  List<Todo> _todos = [];
+
+  List<Todo> get todos => _todos;
+
+  void fetchTodos() async {
+    var todos = await getTodo();
+    _todos = todos;
+    notifyListeners();
   }
 }
 
-
-
 Future<List<Todo>> getTodo() async {
-  http.Response response = await http.get(Uri.parse("$ENDPOINT/todos?key=$APIKEY"));
+  http.Response response =
+      await http.get(Uri.parse("$ENDPOINT/todos?key=$APIKEY"));
+
   String body = response.body;
 
   List<dynamic> todosJson = jsonDecode(body);
@@ -49,13 +59,11 @@ Future<List<Todo>> getTodo() async {
   return todosJson.map((json) => Todo.fromJson(json)).toList();
 }
 
-
-
 void postTodo(Todo todo) async {
   Map<String, dynamic> jsonBody = todo.toJson();
   jsonBody.remove("id");
 
-  http.Response response = await http.post(
+  await http.post(
     Uri.parse("$ENDPOINT/todos?key=$APIKEY"),
     headers: {
       'Content-Type': 'application/json',
@@ -64,4 +72,22 @@ void postTodo(Todo todo) async {
   );
 }
 
+//This is called when checkboxes are pressed in order to mark the done status correctly. 
+void updateTodoDoneStatus(Todo todo) async {
+  final Map<String, dynamic> requestBody = {
+    'title': todo.title,
+    'done': todo.done
+  };
 
+  await http.put(
+    Uri.parse("$ENDPOINT/todos/${todo.id}?key=$APIKEY"),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(requestBody),
+  );
+}
+
+void deleteTodo(Todo todo) async {
+  await http.delete(Uri.parse("$ENDPOINT/todos/${todo.id}?key=$APIKEY"));
+}
