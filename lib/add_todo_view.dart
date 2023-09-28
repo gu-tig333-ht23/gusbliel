@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:template/task_list_item.dart';
-import 'package:provider/provider.dart';
+import 'get_todos_from_api.dart';
 
-class AddTaskView extends StatelessWidget {
-  final TextEditingController _taskController = TextEditingController();
+//Creates the add todo view where the user can add todos. 
+class AddTodoView extends StatelessWidget {
+  final TextEditingController _todoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var taskState = Provider.of<TaskListItemState>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -17,22 +16,22 @@ class AddTaskView extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               TextField(
-                controller: _taskController,
+                controller: _todoController,
                 decoration: InputDecoration(
-                  hintText: 'Enter task name',
+                  hintText: 'Enter todo name',
                 ),
               ),
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  final newTask = _taskController.text.trim();
-                  if (newTask.isNotEmpty) {
-                    taskState.addTask(newTask);
-                    _taskController.clear();
+                  final newTodo = _todoController.text.trim();
+                  if (newTodo.isNotEmpty) {
+                    postTodo(Todo(title: newTodo));
+                    _todoController.clear();
                   }
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Color.fromARGB(255, 255, 145, 175),
-                    content: Text("A task has been added!"),
+                    content: Text("A todo has been added!"),
                     duration: Duration(seconds: 2),
                   ));
                 },
