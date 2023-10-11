@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import "package:provider/provider.dart";
 import 'get_todos_from_api.dart';
 
 //Used to create a ListTile widget, with a checkbox, title and remove button.
@@ -32,7 +31,6 @@ class TodoListWidget extends StatelessWidget {
         value: todo.done,
         onChanged: (bool? value) {
           todo.done = value!;
-          Provider.of<TodoState>(context, listen: false).notifyListeners();
           updateTodoDoneStatus(todo);
 
           if (todo.done) {

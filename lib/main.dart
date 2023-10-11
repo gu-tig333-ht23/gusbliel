@@ -4,6 +4,7 @@ import 'home_page_view.dart';
 import "package:provider/provider.dart";
 import 'todo_filter.dart';
 
+
 void main() {
   TodoFilterState filterModel = TodoFilterState();
   TodoState todoState = TodoState();
@@ -20,7 +21,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 String ENDPOINT = "https://todoapp-api.apps.k8s.gu.se";
-String APIKEY = "0ddf8a9f-38b5-4f88-935b-17424e88ed98";
+String APIKEY = "b6d3c538-b224-43e2-bc3b-ae31f96845a8";
 
 class Todo {
   String? id;
@@ -41,11 +41,13 @@ class TodoState extends ChangeNotifier {
 
   List<Todo> get todos => _todos;
 
-  void fetchTodos() async {
-    var todos = await getTodo();
-    _todos = todos;
-    notifyListeners();
-  }
+  Future<List<Todo>> fetchTodos() async {
+  var todos = await getTodo();
+  _todos = todos;
+  notifyListeners();
+  return todos;
+}
+
 }
 
 Future<List<Todo>> getTodo() async {

@@ -11,7 +11,7 @@ class HomePageView extends StatelessWidget {
   Widget build(BuildContext context) {
     var todofilter = Provider.of<TodoFilterState>(context);
     var todoState = Provider.of<TodoState>(context);
-    todoState.fetchTodos();
+   
 
     List<Todo> filteredTodos = todofilter.applyFilter(todoState.todos);
     var selectedFilterString =
@@ -77,6 +77,7 @@ class HomePageView extends StatelessWidget {
                   todo: todo,
                   onRemove: () {
                     deleteTodo(todo);
+                    //todoState.fetchTodos();
                   },
                   context: context,
                 );
