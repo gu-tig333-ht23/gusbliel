@@ -5,13 +5,12 @@ import "package:provider/provider.dart";
 import 'todo_filter.dart';
 import 'get_todos_from_api.dart';
 
-//creates the home page view where the user can view their todos and interact with them. 
+//creates the home page view where the user can view their todos and interact with them.
 class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var todofilter = Provider.of<TodoFilterState>(context);
     var todoState = Provider.of<TodoState>(context);
-   
 
     List<Todo> filteredTodos = todofilter.applyFilter(todoState.todos);
     var selectedFilterString =
@@ -75,9 +74,9 @@ class HomePageView extends StatelessWidget {
                 final todo = filteredTodos[index];
                 return TodoListWidget(
                   todo: todo,
-                  onRemove: () {
-                    deleteTodo(todo);
-                    //todoState.fetchTodos();
+                  onRemove: () async {
+                    await deleteTodo(todo);
+                    await todoState.fetchTodos();
                   },
                   context: context,
                 );

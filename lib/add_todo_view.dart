@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'get_todos_from_api.dart';
 import "package:provider/provider.dart";
 
-//Creates the add todo view where the user can add todos. 
+//Creates the add todo view where the user can add todos.
 class AddTodoView extends StatelessWidget {
   final TextEditingController _todoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var todoState = Provider.of<TodoState>(context);
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -25,13 +26,12 @@ class AddTodoView extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   final newTodo = _todoController.text.trim();
                   if (newTodo.isNotEmpty) {
-                    postTodo(Todo(title: newTodo));
+                    await postTodo(Todo(title: newTodo));
                     _todoController.clear();
-                    todoState.fetchTodos();
-                    
+                    await todoState.fetchTodos();
                   }
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Color.fromARGB(255, 255, 145, 175),

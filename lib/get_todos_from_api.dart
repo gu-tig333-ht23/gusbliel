@@ -41,13 +41,11 @@ class TodoState extends ChangeNotifier {
 
   List<Todo> get todos => _todos;
 
-  Future<List<Todo>> fetchTodos() async {
-  var todos = await getTodo();
-  _todos = todos;
-  notifyListeners();
-  return todos;
-}
-
+  Future fetchTodos() async {
+    var todos = await getTodo();
+    _todos = todos;
+    notifyListeners();
+  }
 }
 
 Future<List<Todo>> getTodo() async {
@@ -61,7 +59,7 @@ Future<List<Todo>> getTodo() async {
   return todosJson.map((json) => Todo.fromJson(json)).toList();
 }
 
-void postTodo(Todo todo) async {
+Future postTodo(Todo todo) async {
   Map<String, dynamic> jsonBody = todo.toJson();
   jsonBody.remove("id");
 
@@ -74,8 +72,8 @@ void postTodo(Todo todo) async {
   );
 }
 
-//This is called when checkboxes are pressed in order to mark the done status correctly. 
-void updateTodoDoneStatus(Todo todo) async {
+//This is called when checkboxes are pressed in order to mark the done status correctly.
+Future updateTodoDoneStatus(Todo todo) async {
   final Map<String, dynamic> requestBody = {
     'title': todo.title,
     'done': todo.done
@@ -90,6 +88,6 @@ void updateTodoDoneStatus(Todo todo) async {
   );
 }
 
-void deleteTodo(Todo todo) async {
+Future deleteTodo(Todo todo) async {
   await http.delete(Uri.parse("$ENDPOINT/todos/${todo.id}?key=$APIKEY"));
 }

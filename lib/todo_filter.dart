@@ -6,7 +6,8 @@ enum TodoFilter {
   Done,
   Undone,
 }
-//Sets a filter to the todo list. 
+
+//Sets a filter to the todo list.
 class TodoFilterState extends ChangeNotifier {
   TodoFilter _selectedFilter = TodoFilter.All;
 

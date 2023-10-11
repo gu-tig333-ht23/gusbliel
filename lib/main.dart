@@ -4,7 +4,6 @@ import 'home_page_view.dart';
 import "package:provider/provider.dart";
 import 'todo_filter.dart';
 
-
 void main() {
   TodoFilterState filterModel = TodoFilterState();
   TodoState todoState = TodoState();
@@ -17,11 +16,12 @@ void main() {
       child: MyApp(),
     ),
   );
+  todoState.fetchTodos();
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //Sets a very soothing theme
       theme: ThemeData(
-        //Using ColorsScheme.dark allows me to have all text be white with minimal effort. 
+        //Using ColorsScheme.dark allows me to have all text be white with minimal effort.
         colorScheme: ColorScheme.dark(
           background: Color.fromARGB(255, 249, 195, 210),
           primary: Color.fromARGB(255, 255, 145, 175),
